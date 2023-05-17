@@ -1,14 +1,11 @@
 #version 460 core
-
-precision highp float;
-
 #include <flutter/runtime_effect.glsl>
 
 out vec4 fragColor;
 
-layout(location=0)uniform float width;
-layout(location=1)uniform float height;
-layout(location=2)uniform sampler2D image;
+uniform float width;
+uniform float height;
+uniform sampler2D image;
 
 void main(){
     vec2 pos = FlutterFragCoord().xy / vec2(width, height);
@@ -24,6 +21,7 @@ void main(){
     vec4 sobel_edge_h = n2 + (n5 * 2) + n8 - (n0 + (n3 * 2) + n6);
     vec4 sobel_edge_v = n0 + (n1 * 2) + n2 - (n6 + (n7 * 2) + n8);
     vec4 sobel = sqrt((sobel_edge_h * sobel_edge_h) + (sobel_edge_v * sobel_edge_v));
-
     fragColor = vec4(sobel.rgb, 1.0);
 }
+
+

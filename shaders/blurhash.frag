@@ -1,7 +1,4 @@
 #version 460 core
-
-precision highp float;
-
 #include <flutter/runtime_effect.glsl>
 
 out vec4 fragColor;
@@ -52,3 +49,5 @@ void main(){
     color += computeIteration(3, 2, c12, pos);
     fragColor = vec4(linearTosRGB(color.r), linearTosRGB(color.g), linearTosRGB(color.b), 1);
 }
+
+

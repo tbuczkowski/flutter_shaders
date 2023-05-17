@@ -3,14 +3,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_shaders/flutter_shaders.dart';
 
-class GradientWidget extends StatefulWidget {
+class GradientWidget extends StatelessWidget {
   const GradientWidget({super.key});
 
-  @override
-  _GradientWidgetState createState() => _GradientWidgetState();
-}
-
-class _GradientWidgetState extends State<GradientWidget> {
   @override
   Widget build(BuildContext context) => ShaderBuilder(
         assetKey: 'shaders/gradient.frag',

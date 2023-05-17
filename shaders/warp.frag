@@ -4,12 +4,10 @@
 // From
 // https://www.shadertoy.com/view/ttlGDf
 
-//precision highp float;
+out vec4 fragColor;
 
-layout(location=0)out vec4 fragColor;
-
-layout(location=0)uniform vec2 resolution;
-layout(location=1)uniform float iTime;
+uniform vec2 resolution;
+uniform float iTime;
 
 void main(){
     float strength = 0.25;
@@ -25,3 +23,5 @@ void main(){
     col = pow(col, vec3(0.4545));
     fragColor = vec4(col,1.0);
 }
+
+

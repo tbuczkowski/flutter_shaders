@@ -13,7 +13,7 @@ class WarpComparisonWidget extends StatefulWidget {
 }
 
 class _WarpComparisonWidgetState extends State<WarpComparisonWidget> with SingleTickerProviderStateMixin {
-  bool useShader = false;
+  bool useShader = true;
 
   late Ticker _ticker;
 
