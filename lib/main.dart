@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shaders_poc/blurhash_widget.dart';
 import 'package:flutter_shaders_poc/camera_widget.dart';
-import 'package:flutter_shaders_poc/gradient_widget.dart';
+import 'package:flutter_shaders_poc/math_widget.dart';
 import 'package:flutter_shaders_poc/warp_comparison_widget.dart';
 import 'package:flutter_shaders_poc/warp_counter_widget.dart';
 
@@ -36,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _index = 0;
 
   final List _pages = [
-    () => GradientWidget(),
+    () => MathWidget(),
     () => WarpComparisonWidget(),
     () => WarpCounterWidget(),
     () => CameraWidget(),

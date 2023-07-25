@@ -16,8 +16,11 @@ void main() {
     vec3 percent = vec3((st.x + st.y) / 1.2);
 
     color =
-    mix(mix(orange, pink, percent * 2),
-    mix(pink, cyan, percent * 2 - 1), step(0.5, percent));
+    mix(
+    mix(orange, pink, percent * 2),
+    mix(pink, cyan, percent * 2 - 1),
+    step(0.5, percent)
+    );
 
     fragColor = vec4(color, 1);
 }
