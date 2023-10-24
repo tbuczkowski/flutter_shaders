@@ -36,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _index = 0;
 
   final List _pages = [
-    () => MathWidget(),
+    () => MathShaderWidget(),
     () => WarpComparisonWidget(),
     () => WarpCounterWidget(),
     () => CameraWidget(),

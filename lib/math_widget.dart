@@ -1,17 +1,18 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_shaders/flutter_shaders.dart';
 
-class MathWidget extends StatefulWidget {
-  const MathWidget({super.key});
+class MathShaderWidget extends StatefulWidget {
+  const MathShaderWidget({super.key});
 
   @override
-  State<MathWidget> createState() => _MathWidgetState();
+  State<MathShaderWidget> createState() => _MathShaderWidgetState();
 }
 
-class _MathWidgetState extends State<MathWidget> with SingleTickerProviderStateMixin {
+class _MathShaderWidgetState extends State<MathShaderWidget> with SingleTickerProviderStateMixin {
   late Ticker _ticker;
 
   Duration _currentTime = Duration.zero;
@@ -19,7 +20,7 @@ class _MathWidgetState extends State<MathWidget> with SingleTickerProviderStateM
   @override
   void initState() {
     super.initState();
-    _ticker = createTicker((elapsed) {
+    _ticker = createTicker((Duration elapsed) {
       setState(() {
         _currentTime = elapsed;
       });
@@ -38,16 +39,17 @@ class _MathWidgetState extends State<MathWidget> with SingleTickerProviderStateM
         assetKey: 'shaders/math.frag',
         (BuildContext context, FragmentShader shader, _) => CustomPaint(
           size: MediaQuery.of(context).size,
-          painter: MathPainter(shader, _currentTime),
+          painter: MathShaderPainter(shader, _currentTime),
+          // painter: MathCustomPainter(_currentTime),
         ),
       );
 }
 
-class MathPainter extends CustomPainter {
+class MathShaderPainter extends CustomPainter {
   final FragmentShader shader;
   final Duration currentTime;
 
-  MathPainter(
+  MathShaderPainter(
     this.shader,
     this.currentTime,
   );
@@ -56,9 +58,56 @@ class MathPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     shader.setFloat(0, size.width);
     shader.setFloat(1, size.height);
-    // shader.setFloat(2, currentTime.inMilliseconds.toDouble());
+    shader.setFloat(2, currentTime.inMilliseconds.toDouble());
     final Paint paint = Paint()..shader = shader;
     canvas.drawRect(Offset.zero & size, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
+}
+
+class MathCustomPainter extends CustomPainter {
+  static const double scaleFactor = 8;
+  static const double timeScale = 0.005;
+
+  final Duration currentTime;
+
+  MathCustomPainter(this.currentTime);
+
+  double normalizeTrigonometricFunction(double value) => (value + 1) / 2;
+
+  Color mix(Color x, Color y, double a) => Color.fromARGB(
+        255,
+        (y.red * a + x.red * (1 - a)).round(),
+        (y.green * a + x.green * (1 - a)).round(),
+        (y.blue * a + x.blue * (1 - a)).round(),
+      );
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint paint = Paint();
+    final double scaledTime = currentTime.inMilliseconds.toDouble() * timeScale;
+    for (double x = 0; x < size.width; x++) {
+      final double normalizedX = x / size.width;
+      final double verticalStripe = normalizeTrigonometricFunction(sin(normalizedX * pi * scaleFactor + scaledTime));
+      for (double y = 0; y < size.height; y++) {
+        final double normalizedY = y / size.height;
+        final double horizontalStripe =
+            normalizeTrigonometricFunction(cos(normalizedY * pi * scaleFactor + scaledTime));
+        final double diagonalStripe =
+            normalizeTrigonometricFunction(sin((normalizedX + normalizedY) * pi * scaleFactor + scaledTime));
+        final Color verticalStripeColor = Color.fromARGB(255, (255 * verticalStripe).round(), 0, 0);
+        final Color horizontalStripeColor = Color.fromARGB(255, 0, (255 * horizontalStripe).round(), 0);
+        final Color diagonalStripeColor = Color.fromARGB(255, 0, 0, (255 * diagonalStripe).round());
+        paint.color = mix(
+          mix(verticalStripeColor, horizontalStripeColor, normalizedX),
+          diagonalStripeColor,
+          normalizedY,
+        );
+        canvas.drawCircle(Offset(x, y), 1, paint);
+      }
+    }
   }
 
   @override
