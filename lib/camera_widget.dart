@@ -21,25 +21,14 @@ class _CameraWidgetState extends State<CameraWidget> {
   void initState() {
     super.initState();
     _camerasFuture.then((cameras) {
-      controller = CameraController(cameras[1], ResolutionPreset.max);
+      controller = CameraController(cameras[0], ResolutionPreset.max);
       controller.initialize().then((_) {
         if (!mounted) {
           return;
         }
         setState(() {});
         controller.startImageStream((image) => setState(() {}));
-      }).catchError((Object e) {
-        if (e is CameraException) {
-          switch (e.code) {
-            case 'CameraAccessDenied':
-              // Handle access errors here.
-              break;
-            default:
-              // Handle other errors here.
-              break;
-          }
-        }
-      });
+      }).catchError((Object e) => print(e));
     });
   }
 
