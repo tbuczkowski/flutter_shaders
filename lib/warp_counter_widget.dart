@@ -43,25 +43,21 @@ class _WarpCounterWidgetState extends State<WarpCounterWidget> with SingleTicker
     return ShaderBuilder(assetKey: 'shaders/warp.frag', (BuildContext context, FragmentShader shader, _) {
       return Scaffold(
         body: Center(
-          child: Stack(
-            children: [
-              Align(
-                alignment: Alignment.center,
-                child: ShaderMask(
-                  shaderCallback: (Rect bounds) {
-                    shader.setFloat(0, bounds.width * 5);
-                    shader.setFloat(1, bounds.height * 5);
-                    shader.setFloat(2, _elapsed.inMilliseconds.toDouble() / 1000);
-                    return shader;
-                  },
-                  blendMode: BlendMode.srcIn,
-                  child: Text(
-                    '$_counter',
-                    style: TextStyle(fontWeight: FontWeight.w900, fontSize: 256, color: Colors.white),
-                  ),
-                ),
+          child: Align(
+            alignment: Alignment.center,
+            child: ShaderMask(
+              shaderCallback: (Rect bounds) {
+                shader.setFloat(0, bounds.width * 5);
+                shader.setFloat(1, bounds.height * 5);
+                shader.setFloat(2, _elapsed.inMilliseconds.toDouble() / 1000);
+                return shader;
+              },
+              blendMode: BlendMode.srcIn,
+              child: Text(
+                '$_counter',
+                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 256, color: Colors.white),
               ),
-            ],
+            ),
           ),
         ),
         floatingActionButton: FloatingActionButton(

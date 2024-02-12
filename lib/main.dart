@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shaders_poc/blurhash_widget.dart';
 import 'package:flutter_shaders_poc/camera_widget.dart';
+import 'package:flutter_shaders_poc/grayscale_widget.dart';
 import 'package:flutter_shaders_poc/math_widget.dart';
 import 'package:flutter_shaders_poc/warp_comparison_widget.dart';
 import 'package:flutter_shaders_poc/warp_counter_widget.dart';
@@ -39,6 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
     () => MathShaderWidget(),
     () => WarpComparisonWidget(),
     () => WarpCounterWidget(),
+    () => GrayscaleWidget(),
     () => CameraWidget(),
     () => BlurHashWidget(),
   ];
@@ -62,6 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(icon: Icon(Icons.looks_3), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.looks_4), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.looks_5), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.looks_6), label: ''),
         ],
       ),
     );

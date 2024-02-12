@@ -28,3 +28,4 @@ flutter:
     - shaders/sobel.frag
     - shaders/blurhash.frag
     - shaders/math.frag
+    - shaders/grayscale.frag
