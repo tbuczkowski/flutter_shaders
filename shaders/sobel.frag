@@ -6,8 +6,8 @@ out vec4 fragColor;
 uniform vec2 resolution;
 uniform sampler2D image;
 
-
 void main(){
+    vec2 pos = FlutterFragCoord().xy / resolution;
     vec2 convolutionMatrix[9] = vec2[9](
         vec2(-1.0, -1.0),
         vec2(0.0, -1.0),
@@ -19,7 +19,6 @@ void main(){
         vec2(0.0, 1.0),
         vec2(1.0, 1.0)
     );
-    vec2 pos = FlutterFragCoord().xy / resolution;
     vec4 n[9];
     for(int i = 0; i < 9; i++){
         vec4 color = texture(image, (convolutionMatrix[i] / resolution) + pos);

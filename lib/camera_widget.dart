@@ -12,10 +12,10 @@ class CameraWidget extends StatefulWidget {
 }
 
 class _CameraWidgetState extends State<CameraWidget> {
+  bool useShader = false;
+
   final Future<List<CameraDescription>> _camerasFuture = availableCameras();
   late CameraController controller;
-
-  bool useShader = false;
 
   @override
   void initState() {
