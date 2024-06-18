@@ -35,18 +35,12 @@ float linearTosRGB(float value) {
 void main(){
     vec2 pos = FlutterFragCoord().xy;
     vec3 color = vec3(0,0,0);
-    color += computeIteration(0, 0, c1, pos);
-    color += computeIteration(1, 0, c2, pos);
-    color += computeIteration(2, 0, c3, pos);
-    color += computeIteration(3, 0, c4, pos);
-    color += computeIteration(0, 1, c5, pos);
-    color += computeIteration(1, 1, c6, pos);
-    color += computeIteration(2, 1, c7, pos);
-    color += computeIteration(3, 1, c8, pos);
-    color += computeIteration(0, 2, c9, pos);
-    color += computeIteration(1, 2, c10, pos);
-    color += computeIteration(2, 2, c11, pos);
-    color += computeIteration(3, 2, c12, pos);
+    vec3[12] c = vec3[12](c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12);
+    for(int i = 0; i < 4; i++) {
+        for(int j = 0; j < 3; j++) {
+            color += computeIteration(i, j, c[i * 3 + j], pos);
+        }
+    }
     fragColor = vec4(linearTosRGB(color.r), linearTosRGB(color.g), linearTosRGB(color.b), 1);
 }
 
