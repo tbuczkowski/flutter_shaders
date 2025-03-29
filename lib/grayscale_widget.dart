@@ -38,9 +38,7 @@ class _GrayscaleWidgetState extends State<GrayscaleWidget> {
 }
 
 class _Image extends StatelessWidget {
-  const _Image({
-    super.key,
-  });
+  const _Image();
 
   @override
   Widget build(BuildContext context) {
