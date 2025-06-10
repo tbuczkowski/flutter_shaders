@@ -1,3 +1,5 @@
+// I took the shader by forestkatsch on shadertoy (https://www.shadertoy.com/view/WccXDj) and adapted it to work in flutter
+
 #version 460 core
 #include <flutter/runtime_effect.glsl>
 
