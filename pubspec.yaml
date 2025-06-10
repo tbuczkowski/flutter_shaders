@@ -29,3 +29,4 @@ flutter:
     - shaders/blurhash.frag
     - shaders/math.frag
     - shaders/grayscale.frag
+    - shaders/liquidglass.frag

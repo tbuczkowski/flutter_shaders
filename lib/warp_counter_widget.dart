@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_shaders/flutter_shaders.dart';
@@ -40,32 +42,45 @@ class _WarpCounterWidgetState extends State<WarpCounterWidget> with SingleTicker
 
   @override
   Widget build(BuildContext context) {
-    return ShaderBuilder(assetKey: 'shaders/warp.frag', (BuildContext context, FragmentShader shader, _) {
-      return Scaffold(
-        body: Center(
-          child: Align(
-            alignment: Alignment.center,
-            child: ShaderMask(
-              shaderCallback: (Rect bounds) {
-                shader.setFloat(0, bounds.width * 5);
-                shader.setFloat(1, bounds.height * 5);
-                shader.setFloat(2, _elapsed.inMilliseconds.toDouble() / 1000);
-                return shader;
-              },
-              blendMode: BlendMode.srcIn,
-              child: Text(
-                '$_counter',
-                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 256, color: Colors.white),
+    return ShaderBuilder(
+      assetKey: 'shaders/liquidglass.frag',
+      (BuildContext context, FragmentShader liquidglass, _) => AnimatedSampler(
+        (ui.Image image, Size size, Canvas canvas) {
+          liquidglass
+            ..setFloat(0, size.width)
+            ..setFloat(1, size.height)
+            ..setFloat(2, _elapsed.inMilliseconds.toDouble() / 1000)
+            ..setImageSampler(0, image);
+          canvas.drawRect(Offset.zero & size, Paint()..shader = liquidglass);
+        },
+        child: ShaderBuilder(assetKey: 'shaders/warp.frag', (BuildContext context, FragmentShader shader, _) {
+          return Scaffold(
+            body: Center(
+              child: Align(
+                alignment: Alignment.center,
+                child: ShaderMask(
+                  shaderCallback: (Rect bounds) {
+                    shader.setFloat(0, bounds.width * 5);
+                    shader.setFloat(1, bounds.height * 5);
+                    shader.setFloat(2, _elapsed.inMilliseconds.toDouble() / 1000);
+                    return shader;
+                  },
+                  blendMode: BlendMode.srcIn,
+                  child: Text(
+                    '$_counter',
+                    style: TextStyle(fontWeight: FontWeight.w900, fontSize: 256, color: Colors.white),
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: _incrementCounter,
-          tooltip: 'Increment',
-          child: Text('+1'),
-        ),
-      );
-    });
+            floatingActionButton: FloatingActionButton(
+              onPressed: _incrementCounter,
+              tooltip: 'Increment',
+              child: Text('+1'),
+            ),
+          );
+        }),
+      ),
+    );
   }
 }
